@@ -22,14 +22,15 @@ class Gcc49 < Formula
   end
 
   homepage 'http://gcc.gnu.org'
-  url 'ftp://gcc.gnu.org/pub/gcc/snapshots/4.9.0-RC-20140411/gcc-4.9.0-RC-20140411.tar.bz2'
-  version '4.9.0rc1'
-  sha1 '1eb36b1e0a1bed5bd2ef4caeb4d4ffc2aa013b8b'
+  url 'ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.0/gcc-4.9.0.tar.bz2'
+  version '4.9.0'
+  sha1 'fbde8eb49f2b9e6961a870887cf7337d31cd4917'
 
   head 'svn://gcc.gnu.org/svn/gcc/trunk'
 
   option 'enable-fortran', 'Build the gfortran compiler'
   option 'enable-java', 'Build the gcj compiler'
+  option 'enable-go', 'Build the gccgo compiler'
   option 'enable-all-languages', 'Enable all compilers and languages, except Ada'
   option 'enable-nls', 'Build with native language support (localization)'
   option 'enable-profiled-build', 'Make use of profile guided optimization when bootstrapping GCC'
@@ -54,13 +55,14 @@ class Gcc49 < Formula
       # Everything but Ada, which requires a pre-existing GCC Ada compiler
       # (gnat) to bootstrap. GCC 4.6.0 add go as a language option, but it is
       # currently only compilable on Linux.
-      languages = %w[c c++ fortran java objc obj-c++]
+      languages = %w[c c++ fortran java objc obj-c++ go]
     else
       # C, C++, ObjC compilers are always built
       languages = %w[c c++ objc obj-c++]
 
       languages << 'fortran' if build.include? 'enable-fortran'
       languages << 'java' if build.include? 'enable-java'
+      languages << 'go' if build.include? 'enable-go'
     end
 
     version_suffix = version.to_s.slice(/\d\.\d/)
